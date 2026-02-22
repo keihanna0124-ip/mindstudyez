@@ -13,12 +13,11 @@ const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'home' | 'study' | 'relax' | 'contact'>('home');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [userData, setUserData] = useState<{ name: string } | null>(null);
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('mindstudy_user');
-    if (savedUser) setUserData(JSON.parse(savedUser));
-    else setShowOnboarding(true);
+    // Always show onboarding on load
+    setShowOnboarding(true);
   }, []);
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const App: React.FC = () => {
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   const handleReset = () => {
-    localStorage.removeItem('mindstudy_user');
     setUserData(null);
     setShowOnboarding(true);
     setActiveSection('home');
@@ -38,7 +36,6 @@ const App: React.FC = () => {
   const handleOnboardingComplete = (name: string) => {
     const data = { name }; // Email is no longer required
     setUserData(data);
-    localStorage.setItem('mindstudy_user', JSON.stringify(data));
     setShowOnboarding(false);
   };
 
